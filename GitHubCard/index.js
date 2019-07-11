@@ -45,7 +45,6 @@ const followersArray = [];
 </div>
 
 */
-
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
@@ -53,3 +52,76 @@ const followersArray = [];
   luishrd
   bigknell
 */
+const results = axios.get(`https://api.github.com/users/bharti3bk`)
+results.then((data) =>{
+  console.log('mydata' ,data)  
+
+
+
+  const parentCard = document.querySelector('cards');
+  parentCard.appendChild()
+
+
+
+
+})
+.catch((error) => {
+  console.log('Try Again' ,error);
+})  
+
+
+
+
+function createCardComponent(imageUrl , Name , UserName ,Location , Prof , Link , Followers , Following , Bio ){
+  
+  // Creating Elements 
+
+  const card = document.createElement('div');
+  const image = document.createElement('img');
+  const cardInfo  = document.createElement('div');
+  const name = document.createElement('h3');
+  const username = document.createElement('p');
+  const location = document.createElement('p');
+  const Profile = document.createElement('p'); 
+  const link = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+  
+  // Adding Classes to created Elements
+
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+  username.classList.add('username')  
+
+
+  // Adding textContent to created Elements 
+      
+     image.src = imageUrl;
+     name.textContent = Name;
+     username.textContent = UserName;
+     location.textContent = Location;
+     Profile.textContent = Prof;
+     followers.textContent = Followers;
+     following.textContent = Following;
+     bio.textContent = Bio;
+
+  // Adding Child to CreatedElements
+
+  parentCard.appendChild(card);
+  card.appendChild(image);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(Profile);
+  Profile.appendChild(link);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+ 
+  // Returning Cards 
+  return card;
+
+}
