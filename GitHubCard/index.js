@@ -24,8 +24,6 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
-
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -44,8 +42,8 @@ const followersArray = [];
   </div>
 </div>
 
-*/
 
+*/
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
@@ -53,3 +51,71 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+const followersArray = ['tetondan','dustinmyers','justsml','luishrd','bigknell'];
+const parentCard = document.querySelector('.cards');
+followersArray.forEach(follower => {
+  axios.get(`https://api.github.com/users/${follower}`)
+  .then(res => {
+    console.log(res);
+    const resBody = res.data
+    parentCard.appendChild(createCardComponent(resBody));
+    })
+    .catch(error => {
+      console.log('Something went wrong in your get statement')
+    })
+})    
+
+function createCardComponent(body)
+{
+  
+  // Creating Elements 
+
+  const card = document.createElement('div');
+  const image = document.createElement('img');
+  const cardInfo  = document.createElement('div');
+  const name = document.createElement('h3');
+  const username = document.createElement('p');
+  const location = document.createElement('p');
+  const Profile = document.createElement('p'); 
+  const link = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+  
+  // Adding Classes to created Elements
+
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+  username.classList.add('username')  
+
+
+  // Adding textContent to created Elements 
+      
+     image.src = body.avatar_url;
+     name.textContent = body.name;
+     username.textContent = `GitHub Handle: ${body.login}`;
+     location.textContent = body.location;
+     Profile.textContent = body.events_url;
+     followers.textContent = body.followers;
+     following.textContent = body.following;
+     bio.textContent = body.bio;
+
+  // Adding Child to CreatedElements
+
+  card.appendChild(image);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(Profile);
+  Profile.appendChild(link);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+ 
+  // Returning Cards 
+  return card;
+
+}
