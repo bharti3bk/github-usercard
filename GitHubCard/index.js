@@ -24,8 +24,6 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
-
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -44,6 +42,7 @@ const followersArray = [];
   </div>
 </div>
 
+
 */
 /* List of LS Instructors Github username's: 
   tetondan
@@ -52,27 +51,23 @@ const followersArray = [];
   luishrd
   bigknell
 */
-const results = axios.get(`https://api.github.com/users/bharti3bk`)
-results.then((data) =>{
-  console.log('mydata' ,data)  
 
+const followersArray = ['tetondan','dustinmyers','justsml','luishrd','bigknell'];
+const parentCard = document.querySelector('.cards');
+followersArray.forEach(follower => {
+  axios.get(`https://api.github.com/users/${follower}`)
+  .then(res => {
+    console.log(res);
+    const resBody = res.data
+    parentCard.appendChild(createCardComponent(resBody));
+    })
+    .catch(error => {
+      console.log('Something went wrong in your get statement')
+    })
+})    
 
-
-  const parentCard = document.querySelector('cards');
-  parentCard.appendChild()
-
-
-
-
-})
-.catch((error) => {
-  console.log('Try Again' ,error);
-})  
-
-
-
-
-function createCardComponent(imageUrl , Name , UserName ,Location , Prof , Link , Followers , Following , Bio ){
+function createCardComponent(body)
+{
   
   // Creating Elements 
 
@@ -98,18 +93,17 @@ function createCardComponent(imageUrl , Name , UserName ,Location , Prof , Link 
 
   // Adding textContent to created Elements 
       
-     image.src = imageUrl;
-     name.textContent = Name;
-     username.textContent = UserName;
-     location.textContent = Location;
-     Profile.textContent = Prof;
-     followers.textContent = Followers;
-     following.textContent = Following;
-     bio.textContent = Bio;
+     image.src = body.avatar_url;
+     name.textContent = body.name;
+     username.textContent = `GitHub Handle: ${body.login}`;
+     location.textContent = body.location;
+     Profile.textContent = body.events_url;
+     followers.textContent = body.followers;
+     following.textContent = body.following;
+     bio.textContent = body.bio;
 
   // Adding Child to CreatedElements
 
-  parentCard.appendChild(card);
   card.appendChild(image);
   card.appendChild(cardInfo);
   cardInfo.appendChild(name);
